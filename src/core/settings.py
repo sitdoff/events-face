@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Rest framework
     "rest_framework",
+    # Applications
+    "src.events.apps.EventsConfig",
 ]
 
 MIDDLEWARE = [
