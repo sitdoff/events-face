@@ -1,22 +1,28 @@
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
-from rest_framework_simplejwt.tokens import RefreshToken
 
-from src.auth.serializer import RegisterSerializer
+from src.auth.services import TokenService, UserService
 
 
 class RegisterView(generics.CreateAPIView):
-    serializer_class = RegisterSerializer
+    def post(self, request: Request, *args, **kwargs):
+        user_service = UserService()
+        user = user_service.create_user(**request.data)
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
+        token_service = TokenService()
+        tokens = token_service.create_tokens(user)
+
         return Response(
-            {"id": user.id, "username": user.username}, status=status.HTTP_201_CREATED
+            {
+                "message": "User created successfully",
+                "access_token": tokens.get("access"),
+                "refresh_token": tokens.get("refresh"),
+            },
+            status=status.HTTP_201_CREATED,
         )
 
 
@@ -24,10 +30,9 @@ class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
+        token_service = TokenService()
         try:
-            refresh_token = request.data["refresh"]
-            token = RefreshToken(refresh_token)
-            token.blacklist()
+            token_service.refresh_to_blacklist(request.data["refresh"])
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except KeyError:
             return Response(

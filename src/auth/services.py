@@ -27,3 +27,8 @@ class TokenService:
     @staticmethod
     def get_access_token(user) -> AccessToken:
         return TokenService.get_refresh_token(user).access_token
+
+    @staticmethod
+    def refresh_to_blacklist(refresh_token: str) -> None:
+        token = RefreshToken(refresh_token)
+        token.blacklist()
