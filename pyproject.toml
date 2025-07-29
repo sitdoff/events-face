@@ -20,5 +20,6 @@ indent-style = "space"
 
 [dependency-groups]
 dev = [
+    "django-debug-toolbar>=6.0.0",
     "ruff>=0.12.5",
 ]
