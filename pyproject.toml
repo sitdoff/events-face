@@ -10,6 +10,7 @@ dependencies = [
     "djangorestframework>=3.16.0",
     "djangorestframework-simplejwt[crypto]>=5.5.1",
     "psycopg2-binary>=2.9.10",
+    "requests>=2.32.4",
 ]
 
 [tool.ruff.lint]
