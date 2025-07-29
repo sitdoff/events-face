@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     # Applications
     "src.events.apps.EventsConfig",
+    "src.sync.apps.SyncConfig",
     # Tools
     "debug_toolbar",
 ]
