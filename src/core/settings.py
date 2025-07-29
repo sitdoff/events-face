@@ -164,3 +164,5 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
 }
+
+API_URL = "https://events.k3scluster.tech/api/events/"
