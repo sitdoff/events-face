@@ -1,18 +1,15 @@
-from rest_framework.pagination import CursorPagination
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.views import APIView
 
+from src.events.paginators import EventsPagination
 from src.events.serializers import EventSerializer
 from src.events.services import EventService
 
 
-class EventsPagination(CursorPagination):
-    def __init__(self, ordering="date", page_size: int = 10) -> None:
-        self.ordering = ordering
-        self.page_size = page_size
-
-
 class EventsView(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request: Request, *args, **kwargs):
         service = EventService()
         paginator = EventsPagination()
