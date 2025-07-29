@@ -18,6 +18,10 @@ class EventModel(models.Model):
         OPEN = "open", "Открыто"
         CLOSED = "closed", "Закрыто"
 
+    class Meta:
+        verbose_name = "Мероприятие"
+        verbose_name_plural = "Мероприятия"
+
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
@@ -36,3 +40,6 @@ class EventModel(models.Model):
         verbose_name="Место проведения мероприятия",
         null=True,
     )
+
+    def __str__(self) -> str:
+        return f"{self.title} - {self.date}"
