@@ -3,9 +3,12 @@ from datetime import datetime
 import requests
 from django.conf import settings
 from django.db import transaction
+from pybreaker import CircuitBreaker
 
 from src.events.models import EventModel
 from src.sync.models import SyncLogModel
+
+breaker = CircuitBreaker(fail_max=2, reset_timeout=15)
 
 
 class EventSyncService:
@@ -15,6 +18,7 @@ class EventSyncService:
 
     API_URL = settings.API_URL
 
+    @breaker
     def fetch_events(self, changed_at: datetime | None = None) -> dict:
         """
         Делает запрос на сторонний API.

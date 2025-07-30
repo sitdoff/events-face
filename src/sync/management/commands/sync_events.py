@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from django.core.management import BaseCommand
-from requests.exceptions import SSLError
+from requests.exceptions import ConnectionError, SSLError
 
 from src.sync.services import EventSyncService
 
@@ -40,4 +40,6 @@ class Command(BaseCommand):
                 self.style.SUCCESS(f"Synced Events. New: {new}, Updated: {updated}.")
             )
         except SSLError as exc:
+            self.stdout.write(self.style.ERROR(f"Sync Events Error. {exc}"))
+        except ConnectionError as exc:
             self.stdout.write(self.style.ERROR(f"Sync Events Error. {exc}"))
