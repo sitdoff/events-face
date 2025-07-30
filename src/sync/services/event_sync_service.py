@@ -14,12 +14,13 @@ class EventSyncService:
     def fetch_events(self, changed_at: datetime | None = None) -> dict:
         params = {}
         if changed_at is not None:
-            params["changed_at"] = changed_at.strftime("%Y-%m-%d")
+            self.API_URL += f"?changed_at={changed_at.strftime('%Y-%m-%d')}"
+        print(self.API_URL)
         with requests.get(self.API_URL, params=params) as response:
             response.raise_for_status()
             return response.json()
 
-    def sync(self, changed_at: datetime | None = None) -> None:
+    def sync(self, changed_at: datetime | None = None) -> tuple[int, int]:
         events = self.fetch_events(changed_at)
         new, updated = 0, 0
         with transaction.atomic():
@@ -39,3 +40,7 @@ class EventSyncService:
                     updated += 1
             SyncLogModel.objects.create(new=new, updated=updated)
         return new, updated
+
+    def purge(self, days: int = 7) -> None:
+        pass
+        # EventModel.objects.filter(date__lt=datetime.now() - days).delete()
