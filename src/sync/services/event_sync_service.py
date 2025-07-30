@@ -9,18 +9,26 @@ from src.sync.models import SyncLogModel
 
 
 class EventSyncService:
+    """
+    Сервис для синхронизации мероприятий co сторонним API.
+    """
+
     API_URL = settings.API_URL
 
     def fetch_events(self, changed_at: datetime | None = None) -> dict:
-        params = {}
+        """
+        Делает запрос на сторонний API.
+        """
         if changed_at is not None:
             self.API_URL += f"?changed_at={changed_at.strftime('%Y-%m-%d')}"
-        print(self.API_URL)
-        with requests.get(self.API_URL, params=params) as response:
+        with requests.get(self.API_URL) as response:
             response.raise_for_status()
             return response.json()
 
     def sync(self, changed_at: datetime | None = None) -> tuple[int, int]:
+        """
+        Записывает объекты мероприятия в базу данных.
+        """
         events = self.fetch_events(changed_at)
         new, updated = 0, 0
         with transaction.atomic():
