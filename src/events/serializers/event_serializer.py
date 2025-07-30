@@ -4,6 +4,10 @@ from src.events.models import EventModel
 
 
 class EventSerializer(serializers.ModelSerializer):
+    """
+    Сериалайзер для EventModel
+    """
+
     place = serializers.CharField(source="place.title", read_only=True)
 
     class Meta:

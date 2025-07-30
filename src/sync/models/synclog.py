@@ -2,6 +2,10 @@ from django.db import models
 
 
 class SyncLogModel(models.Model):
+    """
+    Модель записи об успешной синхронизации
+    """
+
     run_date = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата синхронизации"
     )

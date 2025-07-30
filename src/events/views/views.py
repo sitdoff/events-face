@@ -11,6 +11,9 @@ class EventsView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request: Request, *args, **kwargs):
+        """
+        Показывает список мероприятий пагинированный по 10 едениц на странице.
+        """
         service = EventService()
         paginator = EventsPagination()
         queryset = service.get_events(request)

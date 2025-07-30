@@ -7,6 +7,10 @@ from src.sync.services import EventSyncService
 
 
 class Command(BaseCommand):
+    """
+    Команда для запуска синхронизации мероприятий.
+    """
+
     help = "Sync events from API"
 
     def add_arguments(self, parser):

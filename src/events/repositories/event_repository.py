@@ -4,6 +4,10 @@ from src.events.models import EventModel
 
 
 class EventRepository:
+    """
+    Репозиторий для работы с EventModel
+    """
+
     model = EventModel
 
     def get_all(self) -> QuerySet[EventModel]:

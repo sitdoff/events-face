@@ -165,4 +165,5 @@ SIMPLE_JWT = {
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
 }
 
+# Адрес для синхронизации мероприятий
 API_URL = "https://events.k3scluster.tech/api/events/"

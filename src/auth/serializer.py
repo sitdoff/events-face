@@ -5,6 +5,10 @@ User = get_user_model()
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+    """
+    Сериалайзер для создания пользователя
+    """
+
     class Meta:
         model = User
         fields = (
