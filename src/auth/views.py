@@ -9,6 +9,10 @@ from src.auth.services import TokenService, UserService
 
 
 class RegisterView(generics.CreateAPIView):
+    """
+    Регистрация пользователя
+    """
+
     def post(self, request: Request, *args, **kwargs):
         user_service = UserService()
         user = user_service.create_user(**request.data)
@@ -27,6 +31,10 @@ class RegisterView(generics.CreateAPIView):
 
 
 class LogoutView(APIView):
+    """
+    Выход пользователя
+    """
+
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
