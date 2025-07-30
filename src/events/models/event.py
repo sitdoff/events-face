@@ -28,8 +28,11 @@ class EventModel(models.Model):
         editable=False,
         verbose_name="ID мероприятия",
     )
-    title = models.CharField(max_length=255, verbose_name="Название мероприятия")
-    date = models.DateTimeField(verbose_name="Дата проведения мероприятия")
+    name = models.CharField(max_length=255, verbose_name="Название мероприятия")
+    event_time = models.DateTimeField(verbose_name="Дата проведения мероприятия")
+    registration_deadline = models.DateTimeField(
+        verbose_name="Дата окончания регистрации"
+    )
     status = models.CharField(
         max_length=6, choices=Status.choices, verbose_name="Статус мероприятия"
     )
@@ -42,4 +45,4 @@ class EventModel(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"{self.title} - {self.date}"
+        return f"{self.name} - {self.event_time}"

@@ -24,6 +24,6 @@ class EventService:
 
     def get_events_page(self, request: Request, **kwargs) -> QuerySet[EventModel]:
         queryset = self.event_repository.get_all_open_events()
-        if (title := request.query_params.get("title")) is not None:
+        if (title := request.query_params.get("name")) is not None:
             queryset = self.filter(queryset, title__icontains=title)
         return queryset
