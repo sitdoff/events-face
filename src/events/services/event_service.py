@@ -22,8 +22,8 @@ class EventService:
     def ordering(self, queryset, order_by: str) -> QuerySet[EventModel]:
         return queryset.order_by(order_by)
 
-    def get_events_page(self, request: Request, **kwargs) -> QuerySet[EventModel]:
+    def get_events(self, request: Request, **kwargs) -> QuerySet[EventModel]:
         queryset = self.event_repository.get_all_open_events()
-        if (title := request.query_params.get("name")) is not None:
-            queryset = self.filter(queryset, title__icontains=title)
+        if (name := request.query_params.get("name")) is not None:
+            queryset = self.filter(queryset, name__icontains=name)
         return queryset

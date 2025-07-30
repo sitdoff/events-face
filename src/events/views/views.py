@@ -13,7 +13,7 @@ class EventsView(APIView):
     def get(self, request: Request, *args, **kwargs):
         service = EventService()
         paginator = EventsPagination()
-        queryset = service.get_events_page(request)
+        queryset = service.get_events(request)
         page = paginator.paginate_queryset(queryset, request, view=self)
         serializer = EventSerializer(page, many=True)
         return paginator.get_paginated_response(serializer.data)
