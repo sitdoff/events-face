@@ -1,14 +1,24 @@
 from datetime import datetime
 
+import pybreaker
+import redis
 import requests
 from django.conf import settings
 from django.db import transaction
-from pybreaker import CircuitBreaker
 
 from src.events.models import EventModel
 from src.sync.models import SyncLogModel
 
-breaker = CircuitBreaker(fail_max=2, reset_timeout=15)
+redis = redis.StrictRedis(
+    host="localhost",
+    port=6379,
+    db=10,
+)
+breaker = pybreaker.CircuitBreaker(
+    fail_max=2,
+    reset_timeout=60,
+    state_storage=pybreaker.CircuitRedisStorage(pybreaker.STATE_CLOSED, redis),
+)
 
 
 class EventSyncService:

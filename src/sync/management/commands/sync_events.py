@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from django.core.management import BaseCommand
+from pybreaker import CircuitBreakerError
 from requests.exceptions import ConnectionError, SSLError
 
 from src.sync.services import EventSyncService
@@ -41,5 +42,5 @@ class Command(BaseCommand):
             )
         except SSLError as exc:
             self.stdout.write(self.style.ERROR(f"Sync Events Error. {exc}"))
-        except ConnectionError as exc:
-            self.stdout.write(self.style.ERROR(f"Sync Events Error. {exc}"))
+        except CircuitBreakerError as exc:
+            self.stdout.write(self.style.ERROR(f"Circuit Breaker Error. {exc}"))
